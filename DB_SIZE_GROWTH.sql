@@ -2,7 +2,7 @@ select to_char(s.begin_interval_time, 'YYYY/MM/DD') AS DATE_OF, round(sum(h.spac
        round((sum(sum(h.space_used_delta)) OVER (ORDER BY to_char(s.begin_interval_time, 'YYYY/MM/DD') ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW))/1024/1024, 3) CUMMULATIVE_GROWTH,
        round(free_space.schema_free_space - TOTAL_GROWTH.total_growth + (sum(sum(h.space_used_delta)) OVER (ORDER BY to_char(s.begin_interval_time, 'YYYY/MM/DD') ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW))/1024/1024, 3) ACTUAL_SIZE
 from dba_hist_seg_stat h,
-     DBA_HIST_SNAPSHOT s,
+     dba_hist_snapshot s,
      dba_objects d,
      ( select sum(s.BYTES)/1024/1024  schema_free_space from dba_segments s
        where s.owner = 'CBS_OWNER'
